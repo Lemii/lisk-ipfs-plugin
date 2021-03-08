@@ -1,0 +1,46 @@
+{
+  "name": "@lemii/lisk-ipfs-plugin",
+  "version": "0.1.0",
+  "description": "A plugin that enables your Lisk node to upload and download files from the IPFS network",
+  "author": "lemii <info@lisktools.eu>",
+  "license": "GPL-3.0-or-later",
+  "keywords": [
+    "lisk",
+    "blockchain"
+  ],
+  "engines": {
+    "node": ">=12.13.0 <=12",
+    "npm": ">=6.12.0"
+  },
+  "main": "dist/index.js",
+  "files": [
+    "dist/**/*"
+  ],
+  "scripts": {
+    "build": "rimraf ./dist && tsc"
+  },
+  "dependencies": {
+    "app-root-path": "^3.0.0",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-rate-limit": "^5.2.6",
+    "file-type": "^16.3.0",
+    "helmet": "^4.4.1",
+    "ipfs-core": "^0.5.2",
+    "lisk-sdk": "^5.0.3",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.2"
+  },
+  "devDependencies": {
+    "@types/app-root-path": "^1.2.4",
+    "@types/body-parser": "^1.19.0",
+    "@types/express": "^4.17.11",
+    "@types/express-rate-limit": "^5.1.1",
+    "@types/morgan": "^1.9.2",
+    "@types/multer": "^1.4.5",
+    "@types/node": "^12.12.11",
+    "rimraf": "^3.0.2",
+    "tsconfig-paths": "3.9.0",
+    "typescript": "^3.8.3"
+  }
+}
