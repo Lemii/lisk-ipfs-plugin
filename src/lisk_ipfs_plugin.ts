@@ -54,9 +54,12 @@ export class IpfsPlugin extends BasePlugin {
       this._registerControllers();
 
       await spawnNode();
-      this._logger.info('IPFS successfully started');
+      this._logger.info('IPFS node successfully started');
 
-      this._server = this._app.listen(this._options.port || apiDefaults.port, '0.0.0.0');
+      const port = this._options.port || apiDefaults.port;
+      this._server = this._app.listen(port, '0.0.0.0', () => {
+        this._logger.info(`API server running on port ${port}`);
+      });
     });
   }
 
@@ -67,6 +70,7 @@ export class IpfsPlugin extends BasePlugin {
           reject(err);
           return;
         }
+        this._logger.info(`API server closed`);
         resolve(undefined);
       });
     });

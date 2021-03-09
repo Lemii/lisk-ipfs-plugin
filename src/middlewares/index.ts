@@ -22,7 +22,7 @@ export const cors = (_req: Request, res: Response, next: NextFunction) => {
 };
 
 export const logger = (log: Logger) =>
-  morgan('common', {
+  morgan('dev', {
     stream: {
       write: str => {
         log.info(str);
