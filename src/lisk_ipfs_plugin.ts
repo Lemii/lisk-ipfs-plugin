@@ -35,7 +35,7 @@ export class IpfsPlugin extends BasePlugin {
   }
 
   public get events(): EventsDefinition {
-    return [];
+    return ['log'];
   }
 
   public get actions(): ActionsDefinition {
@@ -54,11 +54,11 @@ export class IpfsPlugin extends BasePlugin {
       this._registerControllers();
 
       await spawnNode();
-      this._logger.info('IPFS node successfully started');
+      this._demoLogger('IPFS node successfully started');
 
       const port = this._options.port || apiDefaults.port;
       this._server = this._app.listen(port, '0.0.0.0', () => {
-        this._logger.info(`API server running on port ${port}`);
+        this._demoLogger(`API server running on port ${port}`);
       });
     });
   }
@@ -70,7 +70,7 @@ export class IpfsPlugin extends BasePlugin {
           reject(err);
           return;
         }
-        this._logger.info(`API server closed`);
+        this._demoLogger(`API server closed`);
         resolve(undefined);
       });
     });
@@ -79,7 +79,7 @@ export class IpfsPlugin extends BasePlugin {
     this._app.use(helmet());
     this._app.use(bodyParser.text());
     this._app.use(middlewares.limiter(this.options));
-    this._app.use(middlewares.logger(this._logger));
+    this._app.use(middlewares.logger(this._demoLogger));
     this._app.use(middlewares.cors);
   }
 
@@ -96,5 +96,10 @@ export class IpfsPlugin extends BasePlugin {
       logFilePath: getPath(this._options.logFile || loggerDefaults.logFile),
       module: 'ipfs'
     });
+  }
+
+  private _demoLogger(message: string) {
+    this._channel.publish('ipfs:log', { message });
+    this._logger.info(message);
   }
 }

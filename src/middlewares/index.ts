@@ -4,7 +4,6 @@ import morgan from 'morgan';
 import { NextFunction, Request, Response } from 'express';
 import { apiDefaults } from '../defaults';
 import { Options } from '../types';
-import { Logger } from 'lisk-framework/dist-node/logger/logger';
 
 export const limiter = (options: Options) =>
   rateLimit({
@@ -21,11 +20,11 @@ export const cors = (_req: Request, res: Response, next: NextFunction) => {
   next();
 };
 
-export const logger = (log: Logger) =>
+export const logger = (log: (message: string) => void) =>
   morgan('dev', {
     stream: {
       write: str => {
-        log.info(str);
+        log(str);
       }
     }
   });
