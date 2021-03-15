@@ -25,7 +25,7 @@ export class IpfsPlugin extends BasePlugin {
   public static get info(): PluginInfo {
     return {
       author: 'lemii <info@lisktools.eu>',
-      version: '0.2.0',
+      version: '0.2.1',
       name: '@lemii/lisk-ipfs-plugin'
     };
   }
