@@ -79,7 +79,7 @@ export class IpfsPlugin extends BasePlugin {
     this._app.use(helmet());
     this._app.use(bodyParser.text());
     this._app.use(middlewares.limiter(this.options));
-    this._app.use(middlewares.logger(this._demoLogger));
+    this._app.use(middlewares.logger(message => this._demoLogger(message)));
     this._app.use(middlewares.cors);
   }
 
@@ -99,7 +99,16 @@ export class IpfsPlugin extends BasePlugin {
   }
 
   private _demoLogger(message: string) {
-    this._channel.publish('ipfs:log', { message });
-    this._logger.info(message);
+    try {
+      this._channel.publish('ipfs:log', { message });
+    } catch (err) {
+      console.error(err.message);
+    }
+
+    try {
+      this._logger.info(message);
+    } catch (err) {
+      console.error(err.message);
+    }
   }
 }

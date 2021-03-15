@@ -14,7 +14,11 @@ export const downloadFile = async (req: Request, res: Response): Promise<void> =
       const data = await fetchIpfsAsset(node, cid);
       const type = await FileType.fromBuffer(data);
 
-      res.status(200).send(type ? data : data.toString());
+      if (type) {
+        res.status(200).send(data);
+      } else {
+        res.set('Content-Type', 'text/plain').status(200).send(data.toString());
+      }
     }
   } catch (err) {
     res.status(500).send('Could not download file');
