@@ -22,10 +22,11 @@ app.registerPlugin(IpfsPlugin);
 app.registerPlugin(IpfsPlugin, {
   limiterMax: 3,
   limiterWindow: 1000,
-  port: 3200,
-  logFile: 'lisk-ipfs.log'
+  port: 3200
 });
 ```
+
+> When bootstrapping a sidechain with Lisk Commander, you can add it in `/src/app/plugins.ts`
 
 ## Usage
 
