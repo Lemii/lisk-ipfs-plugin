@@ -6,17 +6,13 @@ import helmet from 'helmet';
 import * as controllers from './controllers';
 import * as middlewares from './middlewares';
 import { BasePlugin, PluginInfo, BaseChannel, EventsDefinition, ActionsDefinition } from 'lisk-sdk';
-import { apiDefaults, loggerDefaults } from './defaults';
+import { apiDefaults } from './defaults';
 import { Options } from './types';
-import { createLogger, Logger } from 'lisk-framework/dist-node/logger/logger';
-import { getPath } from './utils';
 
 export class IpfsPlugin extends BasePlugin {
   private _server!: Server;
   private _app!: Express;
   private _channel!: BaseChannel;
-  private _options!: Options;
-  private _logger!: Logger;
 
   public static get alias(): string {
     return 'ipfs';
@@ -43,11 +39,10 @@ export class IpfsPlugin extends BasePlugin {
   }
 
   public async load(channel: BaseChannel): Promise<void> {
+    const options = this.options as Options;
+
     this._app = express();
     this._channel = channel;
-    this._options = this.options;
-
-    this._setupLogger();
 
     this._channel.once('app:ready', async () => {
       this._registerMiddlewares();
@@ -56,7 +51,7 @@ export class IpfsPlugin extends BasePlugin {
       await spawnNode();
       this._logger.info('IPFS node successfully started');
 
-      const port = this._options.port || apiDefaults.port;
+      const port = options.port || apiDefaults.port;
       this._server = this._app.listen(port, '0.0.0.0', () => {
         this._logger.info(`API server running on port ${port}`);
       });
@@ -78,7 +73,7 @@ export class IpfsPlugin extends BasePlugin {
   private _registerMiddlewares(): void {
     this._app.use(helmet());
     this._app.use(bodyParser.text());
-    this._app.use(middlewares.limiter(this.options));
+    this._app.use(middlewares.limiter(this.options as Options));
     this._app.use(middlewares.logger(this._logger));
     this._app.use(middlewares.cors);
   }
@@ -87,14 +82,5 @@ export class IpfsPlugin extends BasePlugin {
     this._app.get('/ipfs/:cid', controllers.downloadFile);
     this._app.post('/ipfs/upload/file', middlewares.upload.single('file'), controllers.uploadFile);
     this._app.post('/ipfs/upload/text', controllers.uploadText);
-  }
-
-  private _setupLogger(): void {
-    this._logger = createLogger({
-      fileLogLevel: 'info',
-      consoleLogLevel: 'info',
-      logFilePath: getPath(this._options.logFile || loggerDefaults.logFile),
-      module: 'ipfs'
-    });
   }
 }

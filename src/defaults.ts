@@ -3,7 +3,3 @@ export const apiDefaults = {
   limiterMax: 3,
   limiterWindow: 1000
 };
-
-export const loggerDefaults = {
-  logFile: 'lisk-ipfs.log'
-};
