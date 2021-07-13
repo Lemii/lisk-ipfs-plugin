@@ -9,6 +9,8 @@ import { BasePlugin, PluginInfo, BaseChannel, EventsDefinition, ActionsDefinitio
 import { apiDefaults } from './defaults';
 import { Options } from './types';
 
+const { author, version, name } = require('../package.json');
+
 export class IpfsPlugin extends BasePlugin {
   private _server!: Server;
   private _app!: Express;
@@ -20,9 +22,9 @@ export class IpfsPlugin extends BasePlugin {
 
   public static get info(): PluginInfo {
     return {
-      author: 'lemii <info@lisktools.eu>',
-      version: '0.2.1',
-      name: '@lemii/lisk-ipfs-plugin'
+      author,
+      version,
+      name
     };
   }
 
