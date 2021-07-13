@@ -1,6 +1,6 @@
 {
   "name": "@lemii/lisk-ipfs-plugin",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "A plugin that enables your Lisk node to upload and download files from the IPFS network",
   "author": "lemii <info@lisktools.eu>",
   "license": "GPL-3.0-or-later",
@@ -37,7 +37,7 @@
     "file-type": "^16.3.0",
     "helmet": "^4.4.1",
     "ipfs-core": "^0.5.2",
-    "lisk-sdk": "^5.0.3",
+    "lisk-sdk": "^5.1.1",
     "morgan": "^1.10.0",
     "multer": "^1.4.2"
   },
